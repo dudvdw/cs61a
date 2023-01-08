@@ -103,7 +103,16 @@ def missing_digits(n):
     >>> check(HW_SOURCE_FILE, 'missing_digits', ['While', 'For'])
     True
     """
-    "*** YOUR CODE HERE ***"
+    if n < 10 :
+        return 0
+    elif n > 10 and n < 100 :
+        [x, y] = n//10, n%10
+        if x < y-1 :
+            return y-1-x
+        else:
+            return 0
+    else:
+        return missing_digits(n//10) + missing_digits(n%100)
 
 
 def next_largest_coin(coin):
@@ -139,7 +148,16 @@ def count_coins(total):
     >>> check(HW_SOURCE_FILE, 'count_coins', ['While', 'For'])                                          
     True
     """
-    "*** YOUR CODE HERE ***"
+    def helper(n, m):
+        if n == 0:
+            return 1
+        elif n < 0:
+            return 0
+        elif m == None:
+            return 0
+        else:
+            return helper(n-m, m) + helper(n, next_largest_coin(m))
+    return helper(total, 1)
 
 
 from operator import sub, mul
@@ -154,5 +172,5 @@ def make_anonymous_factorial():
     >>> check(HW_SOURCE_FILE, 'make_anonymous_factorial', ['Assign', 'AugAssign', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
+    return  (lambda a:lambda v:a(a)(v))(lambda s: lambda x:1 if x==0 else x*s(s)(x-1))
 

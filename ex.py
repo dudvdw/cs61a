@@ -1,3 +1,40 @@
+def count_partitions(n, m):
+    if n == 0:
+        return 1
+    elif n < 0:
+        return 0
+    elif m == 0:
+        return 0
+    else: 
+        return count_partitions(n-m, m) + count_partitions(n, m-1)
+
+from math import gcd
+
+def add_rationals(x, y):
+    nx, dx = numer(x), denom(x)
+    ny, dy = numer(y), denom(y)
+    return rational(nx*dy + ny*dx, dx*dy)
+
+def mul_rationals(x, y):
+    return rational(numer(x) * numer(y), denom(x) * denom(y))
+
+def print_rational(x):
+    print(numer(x), '/', denom(x))
+
+def rationals_are_equal(x, y):
+    return numer(x) * denom(y) == numer(y) * denom(x)
+
+def rational(n, d):
+    g = gcd(n, d)
+    return (n//g, d//g)
+
+def numer(x):
+    return x[0]
+
+def denom(x):
+    return x[1]
+
+
 def div(n, d):
 
   '''
@@ -112,7 +149,7 @@ def cascade(n):
     print(n)
     cascade(n//10)
     print(n)
-@trace
+
 def cascade2(n):
   grow(n)
   print(n)
@@ -126,4 +163,3 @@ def f_then_g(f, g, n):
 grow = lambda n: f_then_g(grow, print, n//10)
 shrink = lambda n: f_then_g(print, shrink, n//10)
 
-cascade2(1234)
