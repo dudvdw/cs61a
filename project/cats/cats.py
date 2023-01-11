@@ -107,9 +107,15 @@ def autocorrect(user_word, valid_words, diff_function, limit):
     than LIMIT.
     """
     # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
+    if user_word in valid_words:
+        return user_word
+    valid_word = min(valid_words, key=lambda word: diff_function(user_word, word, limit))
+    diff_len = diff_function(user_word, valid_word, limit)
+    if diff_len <= limit:
+        return valid_word
+    else:
+        return user_word
     # END PROBLEM 5
-
 
 def shifty_shifts(start, goal, limit):
     """A diff function for autocorrect that determines how many letters
@@ -117,32 +123,38 @@ def shifty_shifts(start, goal, limit):
     their lengths.
     """
     # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
+    def helper (n, i):
+        if n > limit:
+            return n
+        elif i == len(start) or i == len(goal):
+            return n + max(len(start), len(goal)) - i 
+        elif start[i] != goal[i]:
+            n += 1
+        return helper(n, i+1)
+    return helper(0, 0)
     # END PROBLEM 6
 
 
 def pawssible_patches(start, goal, limit):
     """A diff function that computes the edit distance from START to GOAL."""
-    assert False, 'Remove this line'
 
-    if ______________: # Fill in the condition
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
-
-    elif ___________: # Feel free to remove or add additional cases
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
-
+    if limit < 0:
+        # return a number bigger than original limit
+        return float('inf')
+        # the same as start == "" or goal == ""
+    elif len(start) == 0 or len(goal) == 0:
+        # return the number of operations need to be done
+        return max(len(start), len(goal))
+        # the first letter is same
+    elif start[0] == goal[0]:
+        return pawssible_patches(start[1:], goal[1:], limit)
     else:
-        add_diff = ... # Fill in these lines
-        remove_diff = ...
-        substitute_diff = ...
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
-
+        # the number of each operation method plus 1
+        add_diff = pawssible_patches(start, goal[1:], limit-1) + 1
+        remove_diff = pawssible_patches(start[1:], goal, limit-1) + 1
+        substitute_diff = pawssible_patches(start[1:], goal[1:], limit-1) + 1
+        return min(min(add_diff, remove_diff), substitute_diff)
+        
 
 def final_diff(start, goal, limit):
     """A diff function. If you implement this function, it will be used."""
