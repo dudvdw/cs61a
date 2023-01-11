@@ -123,15 +123,25 @@ def shifty_shifts(start, goal, limit):
     their lengths.
     """
     # BEGIN PROBLEM 6
-    def helper (n, i):
-        if n > limit:
-            return n
-        elif i == len(start) or i == len(goal):
-            return n + max(len(start), len(goal)) - i 
-        elif start[i] != goal[i]:
-            n += 1
-        return helper(n, i+1)
-    return helper(0, 0)
+    # def helper (n, i):
+    #     if n > limit:
+    #         return n
+    #     elif i == len(start) or i == len(goal):
+    #         return n + max(len(start), len(goal)) - i 
+    #     elif start[i] != goal[i]:
+    #         n += 1
+    #     return helper(n, i+1)
+    # return helper(0, 0)
+
+    # another method
+    if limit < 0:
+        return float('inf')
+    elif start == "" or goal == "":
+        return max(len(start), len(goal))
+    elif start[0] == goal[0]:
+        return shifty_shifts(start[1:], goal[1:], limit)
+    else:
+        return shifty_shifts(start[1:], goal[1:], limit-1) + 1
     # END PROBLEM 6
 
 
