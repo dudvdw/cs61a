@@ -179,9 +179,17 @@ def final_diff(start, goal, limit):
 def report_progress(typed, prompt, user_id, send):
     """Send a report of your id and progress so far to the multiplayer server."""
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    n = 0
+    for i in range(len(prompt)):
+        if i < len(typed) and typed[i] == prompt[i]:
+            n += 1
+        else:
+            break
+    progress = n / len(prompt)
+    msg =  {'id': user_id, 'progress': progress}
+    send(msg)
+    return progress
     # END PROBLEM 8
-
 
 def fastest_words_report(times_per_player, words):
     """Return a text description of the fastest words typed by each player."""
@@ -205,24 +213,15 @@ def time_per_word(times_per_player, words):
         words: a list of words, in the order they are typed.
     """
     # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
+    times = []
+    for i in range(len(times_per_player)):
+        time = []
+        for j in range(len(times_per_player[i])):
+            if j > 0:
+                time.append(times_per_player[i][j] - times_per_player[i][j-1])
+        times.append(time)
+    return [words, times]
     # END PROBLEM 9
-
-
-def fastest_words(game):
-    """Return a list of lists of which words each player typed fastest.
-
-    Arguments:
-        game: a game data abstraction as returned by time_per_word.
-    Returns:
-        a list of lists containing which words each player typed fastest
-    """
-    player_indices = range(len(all_times(game)))  # contains an *index* for each player
-    word_indices = range(len(all_words(game)))    # contains an *index* for each word
-    # BEGIN PROBLEM 10
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 10
-
 
 def game(words, times):
     """A data abstraction containing all words typed and their times."""
@@ -261,6 +260,28 @@ def game_string(game):
     return "game(%s, %s)" % (game[0], game[1])
 
 enable_multiplayer = False  # Change to True when you're ready to race.
+
+
+def fastest_words(game):
+    """Return a list of lists of which words each player typed fastest.
+
+    Arguments:
+        game: a game data abstraction as returned by time_per_word.
+    Returns:
+        a list of lists containing which words each player typed fastest
+    """
+    player_indices = range(len(all_times(game)))  # contains an *index* for each player
+    word_indices = range(len(all_words(game)))    # contains an *index* for each word
+    # BEGIN PROBLEM 10
+    res = []
+    for _ in player_indices:
+        res.append([])
+
+    for w_idx in word_indices:
+        fast_player = min(player_indices, key=lambda player: time(game, player, w_idx))
+        res[fast_player].append(word_at(game, w_idx))
+    return res
+    # END PROBLEM 10
 
 ##########################
 # Command Line Interface #
