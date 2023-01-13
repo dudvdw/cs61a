@@ -172,5 +172,14 @@ def make_anonymous_factorial():
     >>> check(HW_SOURCE_FILE, 'make_anonymous_factorial', ['Assign', 'AugAssign', 'FunctionDef', 'Recursion'])
     True
     """
-    return  (lambda a:lambda v:a(a)(v))(lambda s: lambda x:1 if x==0 else x*s(s)(x-1))
+
+    """ explanation for the nested lambda expression
+    # 1. (lambda n: (lambda f: f(n, f)) indicates this lambda take in an argument n, then return a function.
+    # 2. the returned function (lambda f: f(n, f)) takes another argument f, f is a function, it returns f(n, f)
+    # 3. the function f's definition comes from the last lambda expression
+    # 4. the last lambda expression is the logic of factorial
+    specified explanation see John's video 16'42" at
+    https://www.bilibili.com/video/BV1s3411G7yM?p=31&spm_id_from=pageDriver&vd_source=f501ec0b107b01e43297e427f870d03b
+    """
+    return (lambda n: (lambda f: f(n, f))(lambda n, fact: 1 if n == 1 else n * fact(n - 1, fact)))
 
