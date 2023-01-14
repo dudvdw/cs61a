@@ -258,7 +258,7 @@ def coords(fn, seq, lower, upper):
     [[-2, 4], [1, 1], [3, 9]]
     """
     "*** YOUR CODE HERE ***"
-    return ______
+    return [[x, fn(x)] for x in seq if fn(x) <= upper and fn(x) >= lower]
 
 
 def riffle(deck):
@@ -271,7 +271,7 @@ def riffle(deck):
     [0, 10, 1, 11, 2, 12, 3, 13, 4, 14, 5, 15, 6, 16, 7, 17, 8, 18, 9, 19]
     """
     "*** YOUR CODE HERE ***"
-    return _______
+    return [deck[len(deck)//2 * (i%2) + i//2] for i in range(len(deck))]
 
 
 def add_trees(t1, t2):
@@ -309,7 +309,72 @@ def add_trees(t1, t2):
         5
       5
     """
-    "*** YOUR CODE HERE ***"
+    # method1
+    # while len(t1) != len(t2):
+    #     if len(t1) < len(t2):
+    #         t1.append(tree(0))
+    #     else:
+    #         t2.append(tree(0))
+
+    # zipped = list(zip(t1, t2))
+    # res_branches = []
+    # if len(zipped) > 1:
+    #     res_branches = [add_trees(zipped[i][0], zipped[i][1]) for i in range(1, len(zipped))]
+    # else:
+    #     res_branches = []
+    # return tree(zipped[0][0] + zipped[0][1], res_branches)
+
+
+    # method2
+    # result_label = label(t1) + label(t2)
+    # result_branches = []  
+    # i = 0
+    # while i < len(branches(t1)) and i < len(branches(t2)):
+    #     b1, b2 = branches(t1)[i], branches(t2)[i]
+    #     new_branch = add_trees(b1, b2)
+    #     result_branches += [new_branch]
+    #     i += 1
+    # result_branches += branches(t1)[i:] 
+    # result_branches += branches(t2)[i:] 
+    # return tree(result_label, result_branches)
+
+    # method2: use zip function to shorten the block
+    # result_label = label(t1) + label(t2)
+    # result_branches = [] 
+    # for b1, b2 in zip(branches(t1), branches(t2)):
+    #     new_branch = add_trees(b1, b2)
+    #     result_branches += [new_branch]
+    # i = len(result_branches)
+    # result_branches += branches(t1)[i:] 
+    # result_branches += branches(t2)[i:] 
+    # return tree(result_label, result_branches)
+
+    # method2: a brief code by using zip function
+    # result_label = label(t1) + label(t2)
+    # result_branches = [add_trees(b1, b2) for b1, b2 in zip(branches(t1), branches(t2))]
+    # i = len(result_branches)
+    # result_branches += branches(t1)[i:] 
+    # result_branches += branches(t2)[i:] 
+    # return tree(result_label, result_branches)
+
+    # method3: recursive method using a helper function
+    def build_result_branches(bs1, bs2):
+        "bs1 and bs2 are the remaining branches."
+        # if min(len(bs1), len(bs2)) == 0:
+        #     return []
+        if not bs1:
+            return bs2
+        if not bs2:
+            return bs1
+        f = add_trees(bs1[0], bs2[0])
+        return [f] + build_result_branches(bs1[1:], bs2[1:])
+    result_label = label(t1) + label(t2)
+    result_branches = build_result_branches(branches(t1), branches(t2))
+    i = len(result_branches)
+    result_branches += branches(t1)[i:] 
+    result_branches += branches(t2)[i:] 
+    return tree(result_label, result_branches)
+
 
 
 def build_successors_table(tokens):
@@ -330,8 +395,8 @@ def build_successors_table(tokens):
     prev = '.'
     for word in tokens:
         if prev not in table:
-            "*** YOUR CODE HERE ***"
-        "*** YOUR CODE HERE ***"
+            table[prev] = []
+        table[prev].append(word)
         prev = word
     return table
 
@@ -348,7 +413,8 @@ def construct_sent(word, table):
     import random
     result = ''
     while word not in ['.', '!', '?']:
-        "*** YOUR CODE HERE ***"
+        result += ' ' + word
+        word = random.choice(table[word])
     return result.strip() + word
 
 def shakespeare_tokens(path='shakespeare.txt', url='http://composingprograms.com/shakespeare.txt'):
@@ -362,8 +428,11 @@ def shakespeare_tokens(path='shakespeare.txt', url='http://composingprograms.com
         return shakespeare.read().decode(encoding='ascii').split()
 
 # Uncomment the following two lines
-# tokens = shakespeare_tokens()
-# table = build_successors_table(tokens)
+tokens = shakespeare_tokens()
+table = build_successors_table(tokens)
+
+def sent():
+    return construct_sent('The', table)
 
 def random_sent():
     import random
@@ -460,9 +529,3 @@ def copy_tree(t):
     5
     """
     return tree(label(t), [copy_tree(b) for b in branches(t)])
-
-t2 = tree(1, [tree(2, [tree(3)])])
-# t2 = tree(1)
-
-new2 = sprout_leaves(t2, [6, 1, 2])
-print_tree(new2)
