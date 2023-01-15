@@ -1,4 +1,4 @@
-# CS 61A note
+# CS 61A Note
 
 ## Chapter 1
 ***Tips:***

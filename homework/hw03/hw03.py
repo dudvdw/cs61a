@@ -280,10 +280,12 @@ def interval(a, b):
 def lower_bound(x):
     """Return the lower bound of interval x."""
     "*** YOUR CODE HERE ***"
+    return x[0]
 
 def upper_bound(x):
     """Return the upper bound of interval x."""
     "*** YOUR CODE HERE ***"
+    return x[1]
 def str_interval(x):
     """Return a string representation of interval x.
     """
@@ -309,6 +311,9 @@ def sub_interval(x, y):
     """Return the interval that contains the difference between any value in x
     and any value in y."""
     "*** YOUR CODE HERE ***"
+    low = lower_bound(x) - upper_bound(y)
+    up = upper_bound(x) - lower_bound(y)
+    return interval(low, up)
 
 
 def div_interval(x, y):
@@ -316,6 +321,7 @@ def div_interval(x, y):
     any value in y. Division is implemented as the multiplication of x by the
     reciprocal of y."""
     "*** YOUR CODE HERE ***"
+    assert lower_bound(y) *upper_bound(y) > 0, 'Divide by zero'
     reciprocal_y = interval(1/upper_bound(y), 1/lower_bound(y))
     return mul_interval(x, reciprocal_y)
 
@@ -337,13 +343,13 @@ def check_par():
     >>> lower_bound(x) != lower_bound(y) or upper_bound(x) != upper_bound(y)
     True
     """
-    r1 = interval(1, 1) # Replace this line!
-    r2 = interval(1, 1) # Replace this line!
+    r1 = interval(1, 2) # Replace this line!
+    r2 = interval(1, 3) # Replace this line!
     return r1, r2
 
 
 def multiple_references_explanation():
-    return """The multiple reference problem..."""
+    return """The multiple reference problem is doesn't matter!"""
 
 
 def quadratic(x, a, b, c):
@@ -356,6 +362,20 @@ def quadratic(x, a, b, c):
     '0 to 10'
     """
     "*** YOUR CODE HERE ***"
+    def f(n):
+        return a*n*n + b*n +c
+
+    l = lower_bound(x)
+    u = upper_bound(x)
+    xs = -b / (2*a)
+    min_x = min(f(l), f(u))
+    max_x = max(f(l), f(u))
+    if xs < l or xs > u:
+        return interval(min_x, max_x)
+    elif a > 0:
+        return interval(f(xs), max_x)
+    else: 
+        return interval(min_x, f(xs))
 
 
 
