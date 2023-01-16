@@ -1,94 +1,17 @@
-def mutable_link():
-  """Return a functional implementation of a mutable linked list."""
-  contents = empty
-  def dispatch(message, value=None):
-      nonlocal contents
-      if message == 'len':
-          return len_link(contents)
-      elif message == 'getitem':
-          return getitem_link(contents, value)
-      elif message == 'push_first':
-          contents = link(value, contents)
-      elif message == 'pop_first':
-          f = first(contents)
-          contents = rest(contents)
-          return f
-      elif message == 'str':
-          return join_link(contents, ", ")
-  return dispatch
-
-def to_mutable_link(source):
-    '''Return a functional list with the same contents as source.'''
-    s = mutable_link()
-    for ele in reversed(source):
-        s('push_first', ele)
-    return s
-
-def dictionary():
-    '''Return a functional implementation of a dictionary.'''
-    records = []
-    def getitem(key):
-        matches = [r for f in records if r[0] == key]
-        if len(matches) == 1:
-            key, value = matches[0]
-            return value
-    def setitem(key, value):
-        nonlocal records
-        non_matches = [r for r in records if r[0] != key]
-        records = non_matches + [[key, value]]
-    def dispatch(message, key=None, value=None):
-        if message == 'getitem':
-            return getitem(key)
-        elif message == 'setitem':
-            setitem(key, value)
-    return dispatch
-
-def make_withdraw(balance):
-    def withdraw(amount):
-        nonlocal balance
-        if amount > balance:
-            return 'Insufficient funds'
-        balance = balance - amount
-        return balance
-    return withdraw 
- 
-def tree(root_label, branches=[]):
-    for branch in branches:
-        assert is_tree(branch), 'branches must be trees'
-    return [root_label] + list(branches)
-
-def label(tree):
-    return tree[0]
-
-def branches(tree):
-    return tree[1:]
-
-def is_tree(tree):
-    if type(tree) != list or len(tree) < 1:
-        return False
-    for branch in branches(tree):
-        if not is_tree(branch):
-            return False
-    return True
-
-def is_leaf(tree):
-    return not branches(tree)
-
-def fib_tree(n):
-    if n == 0 or n == 1:
-        return tree(n)
-    else:
-        left, right = fib_tree(n-2), fib_tree(n-1)
-        fib_n = label(left) + label(right)
-        return tree(fib_n, [left, right])
-
-def count_leaves(tree):
-    if is_leaf(tree):
-        return 1
-    else:
-        branch_counts = [count_leaves(b) for b in branches(tree)]
-        return sum(branch_counts)
-
+def combo (a, b):
+  """Return the smallest integer with all of the digits of a and b (in order).
+  >>> combo(531, 432)
+  45312
+  >>> combo(531, 4321)
+  45321
+  >>> combo(1234, 9123)
+  91234
+  """
+  if a == 0 or b == 0:
+    return a + b
+  elif a % 10 == b % 10:
+    return combo(a//10, b//10)*10 + a%10
+  return min(combo(a//10, b)*10 + a%10, combo(a, b//10)*10 + b%10)
 
 def count_partitions(n, m):
     if n == 0:
@@ -99,33 +22,6 @@ def count_partitions(n, m):
         return 0
     else: 
         return count_partitions(n-m, m) + count_partitions(n, m-1)
-
-from math import gcd
-
-def add_rationals(x, y):
-    nx, dx = numer(x), denom(x)
-    ny, dy = numer(y), denom(y)
-    return rational(nx*dy + ny*dx, dx*dy)
-
-def mul_rationals(x, y):
-    return rational(numer(x) * numer(y), denom(x) * denom(y))
-
-def print_rational(x):
-    print(numer(x), '/', denom(x))
-
-def rationals_are_equal(x, y):
-    return numer(x) * denom(y) == numer(y) * denom(x)
-
-def rational(n, d):
-    g = gcd(n, d)
-    return (n//g, d//g)
-
-def numer(x):
-    return x[0]
-
-def denom(x):
-    return x[1]
-
 
 def div(n, d):
 
