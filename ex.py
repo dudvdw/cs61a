@@ -1,3 +1,16 @@
+def all_pairs(s):
+    for item1 in s:
+        for item2 in s:
+            for item3 in s:
+                yield (item1, item2, item3)
+
+
+def letters_generator():
+        current = 'a'
+        while current <= 'd':
+            yield current
+            current = chr(ord(current)+1)
+
 def combo (a, b):
   """Return the smallest integer with all of the digits of a and b (in order).
   >>> combo(531, 432)
