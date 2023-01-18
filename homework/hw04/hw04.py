@@ -160,11 +160,6 @@ def permutations(seq):
                 yield t
 
 
-perms = permutations([1,2,3])
-print(sorted(perms))
-
-
-
 def make_joint(withdraw, old_pass, new_pass):
     """Return a password-protected withdraw function that has joint access to
     the balance of withdraw.
@@ -204,6 +199,15 @@ def make_joint(withdraw, old_pass, new_pass):
     "Frozen account. Attempts: ['my', 'secret', 'password']"
     """
     "*** YOUR CODE HERE ***"
+    res = withdraw(0, old_pass)
+    if type(res) == str:
+        return res
+    def new_withdraw(amount, psw):
+        if psw == new_pass:
+            return withdraw(amount, old_pass)
+        else:
+            return withdraw(amount, psw)
+    return new_withdraw
 
 
 def remainders_generator(m):
@@ -238,7 +242,12 @@ def remainders_generator(m):
     11
     """
     "*** YOUR CODE HERE ***"
-
+    def gen(i):
+        for item in naturals():
+            if item % m == i:
+                yield item
+    for i in range(m):
+        yield gen(i)
 
 def naturals():
     """A generator function that yields the infinite sequence of natural
