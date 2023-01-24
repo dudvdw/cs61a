@@ -41,6 +41,8 @@ class Place:
         Asks the insect to remove itself from the current place. This method exists so
             it can be enhanced in subclasses.
         """
+        if isinstance(insect, QueenAnt) and insect.is_true_queen:
+            return
         insect.remove_from(self)
 
     def __str__(self):
@@ -52,6 +54,7 @@ class Insect:
 
     damage = 0
     # ADD CLASS ATTRIBUTES HERE
+    is_watersafe = False
 
     def __init__(self, armor, place=None):
         """Create an Insect with an ARMOR amount and a starting PLACE."""
@@ -104,6 +107,7 @@ class Ant(Insect):
 
     implemented = False  # Only implemented Ant classes should be instantiated
     food_cost = 0
+    has_double_damage = False
     # ADD CLASS ATTRIBUTES HERE
 
     def __init__(self, armor=1):
@@ -319,14 +323,25 @@ class Water(Place):
         its armor to 0."""
         # BEGIN Problem 8
         "*** YOUR CODE HERE ***"
+        Place.add_insect(self, insect)
+        if insect.is_watersafe == False:
+            insect.reduce_armor(insect.armor)
         # END Problem 8
 
 # BEGIN Problem 9
 # The ScubaThrower class
+class ScubaThrower(ThrowerAnt):
+    name = 'Scuba'
+    implemented = True
+    food_cost = 6
+    
+    def __init__(self, armor=1):
+        Ant.__init__(self, armor)
+        self.is_watersafe = True
 # END Problem 9
 
 # BEGIN Problem EC
-class QueenAnt(Ant):  # You should change this line
+class QueenAnt(ScubaThrower):  # You should change this line
 # END Problem EC
     """The Queen of the colony. The game is over if a bee enters her place."""
 
@@ -334,12 +349,16 @@ class QueenAnt(Ant):  # You should change this line
     food_cost = 7
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem EC
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    is_true_queen = True
     # END Problem EC
 
     def __init__(self, armor=1):
         # BEGIN Problem EC
         "*** YOUR CODE HERE ***"
+        ScubaThrower.__init__(self, armor)
+        self.is_true_queen = QueenAnt.is_true_queen
+        QueenAnt.is_true_queen = False
         # END Problem EC
 
     def action(self, gamestate):
@@ -350,6 +369,18 @@ class QueenAnt(Ant):  # You should change this line
         """
         # BEGIN Problem EC
         "*** YOUR CODE HERE ***"
+        if self.is_true_queen:
+            ThrowerAnt.action(self, gamestate)
+            cur_place = self.place.exit
+            while cur_place:
+                if cur_place.ant and cur_place.ant.has_double_damage == False:
+                    cur_place.ant.damage *= 2
+                    cur_place.ant.has_double_damage = True
+                cur_place = cur_place.exit
+        else:
+            self.reduce_armor(self.armor) 
+
+
         # END Problem EC
 
     def reduce_armor(self, amount):
@@ -358,6 +389,9 @@ class QueenAnt(Ant):  # You should change this line
         """
         # BEGIN Problem EC
         "*** YOUR CODE HERE ***"
+        ScubaThrower.reduce_armor(self, amount)
+        if self.is_true_queen and self.armor <= 0:
+            bees_win()
         # END Problem EC
 
 
@@ -376,6 +410,7 @@ class Bee(Insect):
 
     name = 'Bee'
     damage = 1
+    is_watersafe = True
     # OVERRIDE CLASS ATTRIBUTES HERE
 
 
@@ -871,14 +906,21 @@ class AssaultPlan(dict):
         """Place all Bees in the beehive and return the list of Bees."""
         return [bee for wave in self.values() for bee in wave]
 
-beehive, layout = Hive(AssaultPlan()), dry_layout
-dimensions = (1, 9)
-gamestate = GameState(None, beehive, ant_types(), layout, dimensions)
-#
-# Testing fire does damage to all Bees in its Place
-place = gamestate.places['tunnel_0_4']
-fire = FireAnt(armor=1)
-place.add_insect(fire)        # Add a FireAnt with 1 armor
-place.add_insect(Bee(3))      # Add a Bee with 3 armor
-place.add_insect(Bee(5))
-print(place.bees[0].action(gamestate))
+# import ants, importlib
+# importlib.reload(ants)
+# beehive = ants.Hive(ants.AssaultPlan())
+# dimensions = (2, 9)
+# gamestate = ants.GameState(None, beehive, ants.ant_types(),
+#         ants.dry_layout, dimensions)
+# ants.bees_win = lambda: None
+# # QueenAnt Placement
+# queen = ants.QueenAnt()
+# impostor = ants.QueenAnt()
+# front_ant, back_ant = ants.ThrowerAnt(), ants.ThrowerAnt()
+# tunnel = [gamestate.places['tunnel_0_{0}'.format(i)]
+#         for i in range(9)]
+# tunnel[1].add_insect(back_ant)
+# tunnel[7].add_insect(front_ant)
+# tunnel[4].add_insect(impostor)
+# impostor.action(gamestate)
+# print(impostor.armor)
