@@ -163,6 +163,8 @@ class ThrowerAnt(Ant):
     implemented = True
     damage = 1
     food_cost = 3
+    min_range = 0
+    max_range = float('inf')
     # ADD/OVERRIDE CLASS ATTRIBUTES HERE
 
     def nearest_bee(self, beehive):
@@ -173,11 +175,13 @@ class ThrowerAnt(Ant):
         """
         # BEGIN Problem 3 and 4
         target_place = self.place
+        distance = 0
         while target_place is not beehive:
-            if len(target_place.bees) > 0:
+            if len(target_place.bees) > 0 and self.min_range <= distance <= self.max_range:
                 return rANTdom_else_none(target_place.bees) # REPLACE THIS LINE
             else:
                 target_place = target_place.entrance
+                distance += 1
         return None
         # END Problem 3 and 4
 
@@ -207,7 +211,8 @@ class ShortThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
+    max_range = 3
+    implemented = True   # Change to True to view in the GUI
     # END Problem 4
 
 class LongThrower(ThrowerAnt):
@@ -217,7 +222,8 @@ class LongThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
+    min_range = 5
+    implemented = True   # Change to True to view in the GUI
     # END Problem 4
 
 class FireAnt(Ant):
@@ -228,7 +234,7 @@ class FireAnt(Ant):
     food_cost = 5
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 5
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 5
 
     def __init__(self, armor=3):
@@ -244,6 +250,14 @@ class FireAnt(Ant):
         """
         # BEGIN Problem 5
         "*** YOUR CODE HERE ***"
+        '''self.place will be None, if the FireAnt has been removed'''
+        cur_place = self.place
+        Ant.reduce_armor(self, amount)
+        if self.armor <= 0:
+            amount += self.damage
+        cur_bees = cur_place.bees[:]
+        for bee in cur_bees:
+            bee.reduce_armor(amount)
         # END Problem 5
 
 class HungryAnt(Ant):
@@ -838,3 +852,15 @@ class AssaultPlan(dict):
     def all_bees(self):
         """Place all Bees in the beehive and return the list of Bees."""
         return [bee for wave in self.values() for bee in wave]
+
+beehive, layout = Hive(AssaultPlan()), dry_layout
+dimensions = (1, 9)
+gamestate = GameState(None, beehive, ant_types(), layout, dimensions)
+#
+# Testing fire does damage to all Bees in its Place
+place = gamestate.places['tunnel_0_4']
+fire = FireAnt(armor=1)
+place.add_insect(fire)        # Add a FireAnt with 1 armor
+place.add_insect(Bee(3))      # Add a Bee with 3 armor
+place.add_insect(Bee(5))
+print(place.bees[0].action(gamestate))
