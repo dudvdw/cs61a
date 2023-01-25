@@ -12,3 +12,12 @@ In general, we can express abstract data using a collection of selectors and con
 
 ***Tips:***
 > Debugging is twice as hard as coding. A complex and long code is more easily to debug than an elegant and brief one. Therefore, you should write a version of understandable code first, then try to enable it more elegant.
+
+## Chapter 3
+### 3.2 Functional Programming
+The machine-language programmer is concerned with using the given hardware to erect systems and utilities for the efficient implementation of resource-limited computations. 
+High-level languages, erected on a machine-language substrate, hide concerns about the representation of data as collections of bits and the representation of programs as sequences of primitive instructions. 
+
+Scheme interpreter installation problem：
+https://blog.csdn.net/shanchuan2012/article/details/100188424
+When you draw something, it may not work, therefore, using the Scheme interpreter in hw06 is a better choice.
