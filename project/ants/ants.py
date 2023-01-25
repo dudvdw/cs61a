@@ -420,6 +420,8 @@ class Bee(Insect):
     name = 'Bee'
     damage = 1
     is_watersafe = True
+    is_scared = False
+    is_rev_direction = False
     # OVERRIDE CLASS ATTRIBUTES HERE
 
 
@@ -449,7 +451,10 @@ class Bee(Insect):
 
         gamestate -- The GameState, used to access game state information.
         """
-        destination = self.place.exit
+        if self.is_rev_direction:
+            destination = self.place.entrance
+        else:
+            destination = self.place.exit
         # Extra credit: Special handling for bee direction
         # BEGIN EC
         "*** YOUR CODE HERE ***"
@@ -580,6 +585,10 @@ def make_slow(action, bee):
     """
     # BEGIN Problem Optional 4
     "*** YOUR CODE HERE ***"
+    def slow_action(gamestate):
+        if gamestate.time%2 == 0:
+            action(gamestate)
+    return slow_action
     # END Problem Optional 4
 
 def make_scare(action, bee):
@@ -589,12 +598,28 @@ def make_scare(action, bee):
     """
     # BEGIN Problem Optional 4
     "*** YOUR CODE HERE ***"
+    def scare_action(gamestate):
+        bee.is_rev_direction = True
+        action(gamestate)
+    return scare_action
     # END Problem Optional 4
 
 def apply_status(status, bee, length):
     """Apply a status to a BEE that lasts for LENGTH turns."""
     # BEGIN Problem Optional 4
     "*** YOUR CODE HERE ***"
+    old_action = bee.action
+    new_action = status(old_action, bee)
+    def status_action(gamestate):
+        nonlocal length
+        if length:
+            new_action(gamestate)
+            length -= 1
+        else:
+            if status == make_scare:
+                bee.is_rev_direction = False
+            old_action(gamestate)
+    bee.action = status_action
     # END Problem Optional 4
 
 
@@ -604,7 +629,7 @@ class SlowThrower(ThrowerAnt):
     name = 'Slow'
     food_cost = 4
     # BEGIN Problem Optional 4
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem Optional 4
 
     def throw_at(self, target):
@@ -618,12 +643,15 @@ class ScaryThrower(ThrowerAnt):
     name = 'Scary'
     food_cost = 6
     # BEGIN Problem Optional 4
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem Optional 4
 
     def throw_at(self, target):
         # BEGIN Problem Optional 4
         "*** YOUR CODE HERE ***"
+        if target and target.is_scared == False:
+            apply_status(make_scare, target, 2)
+            target.is_scared = True
         # END Problem Optional 4
 
 class LaserAnt(ThrowerAnt):
