@@ -75,6 +75,15 @@ def has_cycle(link):
     """
     "*** YOUR CODE HERE ***"
 
+    list = []
+    while link is not Link.empty:
+        if link in list:
+            return True
+        else:
+            list.append(link)
+            link = link.rest
+    return False
+
 def has_cycle_constant(link):
     """Return whether link contains a cycle.
 
@@ -87,7 +96,17 @@ def has_cycle_constant(link):
     False
     """
     "*** YOUR CODE HERE ***"
+    if link.rest and link.rest.rest:
+        slow = link.rest
+        fast = link.rest.rest
 
+    while fast.rest is not Link.empty:
+        if fast == slow:
+            return True
+        else:
+            slow = slow.rest
+            fast = fast.rest.rest
+    return False
 
 def reverse_other(t):
     """Mutates the tree such that nodes on every other (odd-depth) level
@@ -103,6 +122,15 @@ def reverse_other(t):
     Tree(1, [Tree(8, [Tree(3, [Tree(5), Tree(4)]), Tree(6, [Tree(7)])]), Tree(2)])
     """
     "*** YOUR CODE HERE ***"
+    labels = []
+    if not t.is_leaf():
+        for b in t.branches:
+            labels.append(b.label)
+        for b in t.branches:
+            b.label = labels.pop()
+            for bb in b.branches:
+                # call the child branches recursively
+                reverse_other(bb)        
 
 
 class Link:
@@ -220,4 +248,3 @@ class Tree:
                 tree_str += print_tree(b, indent + 1)
             return tree_str
         return print_tree(self).rstrip()
-
