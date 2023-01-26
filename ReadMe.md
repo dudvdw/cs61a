@@ -18,6 +18,17 @@ In general, we can express abstract data using a collection of selectors and con
 The machine-language programmer is concerned with using the given hardware to erect systems and utilities for the efficient implementation of resource-limited computations. 
 High-level languages, erected on a machine-language substrate, hide concerns about the representation of data as collections of bits and the representation of programs as sequences of primitive instructions. 
 
-Scheme interpreter installation problem：
-https://blog.csdn.net/shanchuan2012/article/details/100188424
-When you draw something, it may not work, therefore, using the Scheme interpreter in hw06 is a better choice.
+**Scheme interpreter**
+* Scheme interpreter installation problem [reference](https://blog.csdn.net/shanchuan2012/article/details/100188424)
+* When you draw something, it may not work, therefore, using the Scheme interpreter in [hw06](https://inst.eecs.berkeley.edu/~cs61a/fa20/hw/hw06/) is a better choice.
+* Or you can use the scheme interpreter [here](https://code.cs61a.org/)
+
+#### Scheme Lists
+In the late 1950s, computer scientists used confusing names
+* cons: Two-argument procedure that creates a linked list
+* car: Procedure that returns the first element of a list
+* cdr: Procedure that returns the rest of a list
+* nil: The empty list
+
+**Important!**
+Scheme lists are written in parentheses with elements separated by spaces
