@@ -1,4 +1,3 @@
-# Q4
 def falling(n, k):
     """Compute the falling factorial of n to depth k.
 
@@ -11,16 +10,14 @@ def falling(n, k):
     >>> falling(4, 0)
     1
     """
+    "*** YOUR CODE HERE ***"
     product = 1
-    while k>0:
-      product = product *  n
-      n = n - 1
-      k = k - 1
-    print(product)
+    while k > 0:
+        product *= n
+        n -= 1
+        k -= 1
     return product
 
-
-# Q5 Sum digit
 def sum_digits(y):
     """Sum all the digits of y.
 
@@ -34,15 +31,13 @@ def sum_digits(y):
     >>> a
     6
     """
-    sum = 0
-    while y > 0:
-      digit = y % 10
-      sum = sum + digit
-      y = y // 10
-    print(sum)
-    return sum
+    "*** YOUR CODE HERE ***"
+    if y < 10:
+        return y
+    else:
+        return y%10 + sum_digits(y//10)
 
-# Q7 Double Eight
+
 def double_eights(n):
     """Return true if n has two eights in a row.
     >>> double_eights(8)
@@ -58,18 +53,12 @@ def double_eights(n):
     >>> double_eights(80808080)
     False
     """
-    flag = False
-    while n>0:
-      digit = n % 10
-      n = n // 10
-      if digit != 8:
-        flag = False
-      else: 
-        if flag == True:
-          print(True)
-          return True
+    "*** YOUR CODE HERE ***"
+    while n > 10:
+        last = n % 100
+        if last == 88:
+            return True
         else:
-          flag = True
-    print(False)
+            n = n//10
     return False
-double_eights(1808)
+
