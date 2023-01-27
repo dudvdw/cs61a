@@ -189,6 +189,59 @@ def is_bst(t):
     False
     """
     "*** YOUR CODE HERE ***"
+    # def is_valid_node(node, low, high):
+    #     if not node:
+    #         return
+    #     val = node.label
+    #     if low != None and val < low:
+    #         return False
+    #     if high != None and val > high:
+    #         return False
+    #     if len(node.branches) > 2:
+    #         return False
+    #     if len(node.branches) and not is_valid_node(node.branches[0], low, val):
+    #         return False
+    #     if len(node.branches) > 1 and not is_valid_node(node.branches[1], val, high):
+    #         return False
+    #     return True
+    # return is_valid_node(t, float('-inf'), float('inf'))
+
+    # Take care, in the question, it doesn't define which branch is left child, which is right.
+    # There is no sequence here. Not a standard bst, forget the question.
+    def bst_min(t):
+        if t.is_leaf():
+            return t.label
+        elif len(t.branches) == 1:
+            if t.label > t.branches[0].label:
+                return bst_min(t.branches[0])
+            else:
+                return t.label
+        else:
+            return bst_min(t.branches[0])
+
+    def bst_max(t):
+        if t.is_leaf():
+            return t.label
+        elif len(t.branches) == 1:
+            if t.label < t.branches[0].label:
+                return bst_max(t.branches[0])
+            else:
+                return t.label
+        else:
+            return bst_max(t.branches[1])
+
+    if t.is_leaf():
+        return True
+    if len(t.branches) == 1:
+        if t.label > t.branches[0].label:
+            return is_bst(t.branches[0]) and t.label >= bst_max(t.branches[0])
+        else:
+            return is_bst(t.branches[0]) and t.label < bst_min(t.branches[0])
+    elif len(t.branches) == 2:
+        le, ri = t.branches
+        return is_bst(le) and is_bst(ri) and (bst_max(le) <= t.label < bst_min(ri))
+    else:
+        return False
 
 
 def preorder(t):
@@ -202,7 +255,13 @@ def preorder(t):
     [2, 4, 6]
     """
     "*** YOUR CODE HERE ***"
-
+    if t.is_leaf():
+        return [t.label]
+    else:
+        b_list = []
+        for b in t.branches:
+            b_list.extend(preorder(b))
+        return [t.label] + b_list
 
 def path_yielder(t, value):
     """Yields all possible paths from the root of t to a node with the label value
@@ -240,10 +299,11 @@ def path_yielder(t, value):
     """
 
     "*** YOUR CODE HERE ***"
-
-    for _______________ in _________________:
-        for _______________ in _________________:
-
+    if t.label == value:
+        yield [value]
+    for b in t.branches:
+        for path in path_yielder(b, value):
+            yield [t.label] + path
             "*** YOUR CODE HERE ***"
 
 
@@ -363,3 +423,5 @@ class Tree:
             return tree_str
         return print_tree(self).rstrip()
 
+numbers = Tree(1, [Tree(2), Tree(3, [Tree(4), Tree(5)]), Tree(6, [Tree(7)])])
+print(preorder(numbers))
