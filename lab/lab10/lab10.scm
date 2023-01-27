@@ -34,14 +34,25 @@
   h
 )
 
-
+; remove the word 'YOUR-CODE-HERE, or interpreter will go wrong
 (define lst
-  'YOUR-CODE-HERE
+  (cons (cons 1 nil) 
+    (cons 2 
+      (cons (cons 3 (cons 4 nil)) 
+        (cons 5 nil)
+      )
+    )
+  )
 )
 
 
 (define (remove item lst)
   'YOUR-CODE-HERE
+  (cond
+    ((null? lst) '())
+    ((= (car lst) item) (remove item (cdr lst)))
+    (else (cons (car lst) (remove item (cdr lst))))
+  )
 )
 
 
