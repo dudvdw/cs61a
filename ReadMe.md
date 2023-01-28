@@ -19,8 +19,7 @@ The machine-language programmer is concerned with using the given hardware to er
 High-level languages, erected on a machine-language substrate, hide concerns about the representation of data as collections of bits and the representation of programs as sequences of primitive instructions. 
 
 **Scheme interpreter**
-* Scheme interpreter installation problem [reference](https://blog.csdn.net/shanchuan2012/article/details/100188424)
-* When you draw something, it may not work, therefore, using the Scheme interpreter in [hw06](https://inst.eecs.berkeley.edu/~cs61a/fa20/hw/hw06/) is a better choice.
+* When you install a Scheme interpreter, you may come across some problems. Using the Scheme interpreter in [hw06](https://inst.eecs.berkeley.edu/~cs61a/fa20/hw/hw06/) is a better choice.
 * Or you can use the scheme interpreter [here](https://code.cs61a.org/)
 
 #### Scheme Lists
@@ -32,3 +31,10 @@ In the late 1950s, computer scientists used confusing names
 
 **Important!**
 Scheme lists are written in parentheses with elements separated by spaces
+
+**Built-in List Processing Procedures**
+(append s t ): list the elements of s and t; append can be called on more than 2 lists
+(map f s): call a procedure f on each element of a list s and list the results
+(filter f s): call a procedure f on each element of a list s and list the elements for
+which a true value is the result
+(apply f s): call a procedure f with the elements of a list as its arguments
