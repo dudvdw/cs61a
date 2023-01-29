@@ -7,7 +7,7 @@ def insert_into_all(item, nested_list):
     >>> insert_into_all(0, nl)
     [[0], [0, 1, 2], [0, 3]]
     """
-    return ______________________________
+    return [[item] + v for v in nested_list]
 def subseqs(s):
     """Assuming that S is a list, return a nested list of all subsequences
     of S (a list of lists). The subsequences can appear in any order.
@@ -18,11 +18,10 @@ def subseqs(s):
     >>> subseqs([])
     [[]]
     """
-    if ________________:
-        ________________
+    if len(s) == 0:
+        return [[]]
     else:
-        ________________
-        ________________
+        return insert_into_all(s[0], subseqs(s[1:])) + subseqs(s[1:])
 
 
 def inc_subseqs(s):
@@ -41,15 +40,21 @@ def inc_subseqs(s):
     """
     def subseq_helper(s, prev):
         if not s:
-            return ____________________
+            return [[]]
+        # if s[0] in current list s is less than the previous element, discard s[0], 
+        # because the list will not be a nondecreasing list, if it contains s[0].
         elif s[0] < prev:
-            return ____________________
+            return subseq_helper(s[1:], prev)
         else:
-            a = ______________________
-            b = ______________________
-            return insert_into_all(________, ______________) + ________________
-    return subseq_helper(____, ____)
-
+            # use s[0] as the first(previous) element of a new list
+            a = subseq_helper(s[1:], s[0])
+            # discars s[0], using the rest elements to construct lists
+            b = subseq_helper(s[1:], prev)
+            # get these two situations together 
+            return insert_into_all(s[0], a) + b
+            # though input list contains no negative elements,
+            # set the initial previous element -1, less than any possible element in the list
+    return subseq_helper(s, -1)
 
 def num_trees(n):
     """How many full binary trees have exactly n leaves? E.g.,
@@ -71,9 +76,15 @@ def num_trees(n):
     429
 
     """
-    if ____________________:
-        return _______________
-    return _______________
+    if n == 1:
+        return 1
+    total = 0
+    for left in range(1, n):
+        right = n - left
+        num_left = num_trees(left)
+        num_right = num_trees(right)
+        total += num_left * num_right
+    return total
 
 
 def make_generators_generator(g):
@@ -111,16 +122,15 @@ def make_generators_generator(g):
     9
     """
     def gen(i):
-        for ___________ in ___________:
-            if _________________________:
-                _________________________
-            _______________________
-            _______________________
-    __________________________
-    for _________ in __________________:
-        ______________________________
-        ______________________________
-
+        for x in g():
+            if i <= 0:
+                return
+            yield x
+            i -= 1
+    i = 1
+    for _ in g():
+        yield gen(i)
+        i += 1
 
 class Button:
     """
@@ -158,26 +168,25 @@ class Keyboard:
     """
 
     def __init__(self, *args):
-        ________________
-        for _________ in ________________:
-            ________________
+        self.buttons = {}
+        for btn in args:
+            self.buttons[btn.pos] = btn
 
     def press(self, info):
         """Takes in a position of the button pressed, and
         returns that button's output"""
-        if ____________________:
-            ________________
-            ________________
-            ________________
-        ________________
+        if info in self.buttons:
+            self.buttons[info].times_pressed += 1
+            return self.buttons[info].key
+        return ""
 
     def typing(self, typing_input):
         """Takes in a list of positions of buttons pressed, and
         returns the total output"""
-        ________________
-        for ________ in ____________________:
-            ________________
-        ________________
+        s = ""
+        for position in typing_input:
+            s += self.press(position)
+        return s
 
 
 def make_advanced_counter_maker():
@@ -209,15 +218,25 @@ def make_advanced_counter_maker():
     >>> tom_counter('global-count')
     1
     """
-    ________________
-    def ____________(__________):
-        ________________
-        def ____________(__________):
-            ________________
+    global_count = 0
+    def global_fun():
+        count = 0
+        def local_fun(arg):
+            nonlocal global_count
+            nonlocal count
             "*** YOUR CODE HERE ***"
-            # as many lines as you want
-        ________________
-    ________________
+            if arg == 'global-reset':
+                global_count = 0
+            elif arg == 'global-count':             
+                global_count += 1
+                return global_count
+            elif arg == 'reset':
+                count = 0
+            elif arg == 'count':
+                count += 1
+                return count
+        return local_fun
+    return global_fun
 
 
 def trade(first, second):
