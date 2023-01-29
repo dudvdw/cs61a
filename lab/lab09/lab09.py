@@ -8,7 +8,6 @@ def insert_into_all(item, nested_list):
     [[0], [0, 1, 2], [0, 3]]
     """
     return ______________________________
-
 def subseqs(s):
     """Assuming that S is a list, return a nested list of all subsequences
     of S (a list of lists). The subsequences can appear in any order.
