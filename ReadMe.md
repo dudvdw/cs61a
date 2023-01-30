@@ -47,3 +47,20 @@ which a true value is the result
 ``` scheme
   (lambda (<formal-parameters>) <body>)
 ```
+**Tail recursion**
+Tail recursion is defined as a recursive function in which the recursive call is the last statement that is executed by the function. So basically nothing is left to execute after the recursion call.
+
+* factorial's tail recursion version
+``` scheme
+(define (fac n k)
+  (if (zero? n) k
+  (fac (- n 1) (* n k))))
+```
+* reverse a list
+```
+(define (reverse s)
+  (define (reverse-iter s r)
+    (if (null? s) r
+    (reverse-iter (cdr s) (cons (car s) r))))
+  (reverse-iter s nil))
+```
