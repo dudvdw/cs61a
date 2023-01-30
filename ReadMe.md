@@ -38,3 +38,12 @@ Scheme lists are written in parentheses with elements separated by spaces
 (filter f s): call a procedure f on each element of a list s and list the elements for
 which a true value is the result
 (apply f s): call a procedure f with the elements of a list as its arguments
+
+**Quotation**
+'<expression> is shorthand for (quote <expression>).
+  (quote (1 2)) is equivalent to '(1 2)
+
+**Lambda Expression**
+``` scheme
+  (lambda (<formal-parameters>) <body>)
+```
