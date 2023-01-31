@@ -47,9 +47,11 @@ which a true value is the result
 ``` scheme
   (lambda (<formal-parameters>) <body>)
 ```
+
 **Tail recursion**
 Tail recursion is defined as a recursive function in which the recursive call is the last statement that is executed by the function. So basically nothing is left to execute after the recursion call.
 
+*Examples:*
 * factorial's tail recursion version
 ``` scheme
 (define (fac n k)
@@ -57,10 +59,44 @@ Tail recursion is defined as a recursive function in which the recursive call is
   (fac (- n 1) (* n k))))
 ```
 * reverse a list
-```
+``` scheme
 (define (reverse s)
   (define (reverse-iter s r)
     (if (null? s) r
     (reverse-iter (cdr s) (cons (car s) r))))
   (reverse-iter s nil))
+```
+
+**Macro**
+``` scheme
+(define-macro (twice expr)
+ (list 'begin expr expr))
+
+ (twice (print 2))
+```
+
+``` scheme
+(define (twice expr) (list 'begin expr expr))
+
+(eval (twice '(print 2)))
+```
+
+``` scheme
+(define-macro (check expr)
+  (list 'if expr ''passed
+    (list 'quote (list 'failed: expr))))
+
+(check (> x 0))
+```
+
+``` scheme
+(define (map fn vals)
+  (if (null? vals) nil
+    (cons (fn (car vals))
+      (map fn (cdr vals)))))
+
+(define-macro (for sym vals expr)
+  (list 'map (list 'lambda (list sym)  expr) vals))
+
+(for x '(1 2 3 4) (* x x))
 ```
