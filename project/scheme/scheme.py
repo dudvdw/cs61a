@@ -74,13 +74,20 @@ def eval_all(expressions, env):
     """
     # BEGIN PROBLEM 7
     # return scheme_eval(expressions.first, env) # replace this with lines of your own code
-    if expressions == nil:
-        return None
-    elif expressions.rest == nil:
-        return scheme_eval(expressions.first, env)
-    else:
-        scheme_eval(expressions.first, env)
-        return eval_all(expressions.rest, env)
+    # if expressions == nil:
+    #     return None
+    # elif expressions.rest == nil:
+    #     return scheme_eval(expressions.first, env)
+    # else:
+    #     scheme_eval(expressions.first, env)
+    #     return eval_all(expressions.rest, env)
+
+    # change for Problem 19
+    res = None
+    while expressions is not nil:
+        res = scheme_eval(expressions.first, env, expressions.rest is nil)
+        expressions = expressions.rest
+    return res
     # END PROBLEM 7
 
 ################
@@ -346,9 +353,9 @@ def do_if_form(expressions, env):
     """
     validate_form(expressions, 2, 3)
     if is_true_primitive(scheme_eval(expressions.first, env)):
-        return scheme_eval(expressions.rest.first, env)
+        return scheme_eval(expressions.rest.first, env, True)
     elif len(expressions) == 3:
-        return scheme_eval(expressions.rest.rest.first, env)
+        return scheme_eval(expressions.rest.rest.first, env, True)
 
 def do_and_form(expressions, env):
     """Evaluate a (short-circuited) and form.
@@ -365,14 +372,24 @@ def do_and_form(expressions, env):
     """
     # BEGIN PROBLEM 12
     "*** YOUR CODE HERE ***"
-    if not expressions:
+    # if not expressions:
+    #     return True
+    # if expressions.rest == nil:
+    #     return scheme_eval(expressions.first, env)
+    # elif is_true_primitive(scheme_eval(expressions.first, env)):
+    #     return do_and_form(expressions.rest, env)
+    # else:
+    #     return False
+
+    # change for problem 19
+    if expressions is nil:
         return True
-    if expressions.rest == nil:
-        return scheme_eval(expressions.first, env)
-    elif is_true_primitive(scheme_eval(expressions.first, env)):
-        return do_and_form(expressions.rest, env)
-    else:
-        return False
+    while expressions is not nil:
+        res = scheme_eval(expressions.first, env, expressions.rest is nil)
+        if is_false_primitive(res):
+            return False
+        expressions = expressions.rest
+    return res
     # END PROBLEM 12
 
 def do_or_form(expressions, env):
@@ -390,13 +407,22 @@ def do_or_form(expressions, env):
     """
     # BEGIN PROBLEM 12
     "*** YOUR CODE HERE ***"
-    if not expressions:
-        return False
-    elif is_true_primitive(scheme_eval(expressions.first, env)):
-        return scheme_eval(expressions.first, env)
-    else:
-        return do_or_form(expressions.rest, env)
+    # if not expressions:
+    #     return False
+    # elif is_true_primitive(scheme_eval(expressions.first, env)):
+    #     return scheme_eval(expressions.first, env)
+    # else:
+    #     return do_or_form(expressions.rest, env)
 
+    # change for problem 19
+    if expressions is nil:
+        return False
+    while expressions is not nil:
+        res = scheme_eval(expressions.first, env, expressions.rest is nil)
+        if is_true_primitive(res):
+            return res
+        expressions = expressions.rest
+    return False
     # END PROBLEM 12
 
 def do_cond_form(expressions, env):
@@ -673,6 +699,21 @@ def optimize_tail_calls(original_scheme_eval):
         result = Thunk(expr, env)
         # BEGIN PROBLEM 19
         "*** YOUR CODE HERE ***"
+        """
+        A Thunk object is used to save an expresssion EXPR in environment ENV
+        for further evaluation. Therefore, procedure can avoid build Frame 
+        again and again in the course of tail calls.
+        After constructing the nested Thunk object, procedure should evaluate
+        the nested expression at the end of the tail calls.
+        Apply the original_scheme_eval on the expression in the corresponding
+        environment, obtaining the value of current expression. 
+        Repeat this process, return the final result.
+        In addition, find the procedure where there is a tail call, adding the
+        parameter tail=True to the scheme_eval function as the third argument.
+        """
+        while isinstance(result, Thunk):
+            result = original_scheme_eval(result.expr, result.env)
+        return result
         # END PROBLEM 19
     return optimized_eval
 
@@ -684,7 +725,7 @@ def optimize_tail_calls(original_scheme_eval):
 ################################################################
 # Uncomment the following line to apply tail call optimization #
 ################################################################
-# scheme_eval = optimize_tail_calls(scheme_eval)
+scheme_eval = optimize_tail_calls(scheme_eval)
 
 
 
