@@ -39,6 +39,9 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
         "*** YOUR CODE HERE ***"
         operator = scheme_eval(first, env)
         validate_procedure(operator)
+        # change for problem 20
+        if isinstance(operator, MacroProcedure):
+            return scheme_eval(operator.apply_macro(rest, env), env)
         oprands = rest.map(lambda x: scheme_eval(x, env))
         return scheme_apply(operator, oprands, env)
         # END PROBLEM 4
@@ -495,6 +498,19 @@ def do_define_macro(expressions, env):
     """
     # BEGIN Problem 20
     "*** YOUR CODE HERE ***"
+    # Following the instruction, refer to do_define_form function to solve the problem 
+    validate_form(expressions, 2) # Checks that expressions is a list of length at least 2
+    target = expressions.first
+    if isinstance(target, Pair) and scheme_symbolp(target.first):
+        name = target.first
+        formals = target.rest
+        body = expressions.rest
+        macro_procedure = MacroProcedure(formals, body, env)
+        env.define(name, macro_procedure)
+        return name
+    else:
+        bad_target = target.first if isinstance(target, Pair) else target
+        raise SchemeError('non-symbol: {0}'.format(bad_target))
     # END Problem 20
 
 
