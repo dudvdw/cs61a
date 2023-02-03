@@ -1,6 +1,14 @@
+import sqlite3
+
+db = sqlite3.Connection("n.db")
+db.execute("CREATE TABLE nums AS SELECT 2 UNION SELECT 3;")
+db.execute("INSERT INTO nums VALUES (?), (?), (?)", range(4, 7))
+print(db.execute("SELECT * FROM nums;").fetchall())
+db.commit() 
+
 class Car(object):
     num_wheels = 4
-    gas = 30
+    gas = 3
     headlights = 2
     size = 'Tiny'
 
@@ -39,7 +47,7 @@ class MonsterTruck(Car):
         self.rev()
         return Car.drive(self)
 deneros_car = MonsterTruck('Monster', 'Batmobile')
-print(deneros_car.drive())
+# print(deneros_car.drive())
 
 def all_pairs(s):
     for item1 in s:

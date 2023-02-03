@@ -72,7 +72,7 @@ Tail recursion is defined as a recursive function in which the recursive call is
 (define-macro (twice expr)
  (list 'begin expr expr))
 
- (twice (print 2))
+(twice (print 2))
 ```
 
 ``` scheme
