@@ -131,20 +131,20 @@ Knowledge and application are two important notions when we talk about learning.
 All of these process of learning miss a key procedure -- application. When you complete project in your job, you try to use knowledge to solve so many problems, not merely simple practice. It is a process of applying knowledge, pushing you to learn it well. You may grow rapidly by this project-oriented learning method, but it has obvious defect -- it is not systematic. It denotes you learn things randomly, leading by projects in your work. That is a disadvantage for you to form a relatively integrated knowledge system, resulting in hardly transfer to another unfamiliar project rapidly.
 
 There are four primary procedures in the process of learning:
-* learn  
-**aim**: obtain knowledge
+* Learn  
+**aim**: obtain knowledge  
 **method**: read text/books, watch video
 
-* examine  
-**aim**: consolidate knowledge
+* Examine
+**aim**: consolidate knowledge  
 **method**: do homework, attend exam
 
-* exercise  
-**aim**: obtain skill
+* Exercise 
+**aim**: obtain skill  
 **method**: do exercise/lab
 
-* apply  
-**aim**: obtain and consolidate skill
+* Apply  
+**aim**: obtain and consolidate skill  
 **method**: complete project
 
 Make a plan, set a deadline, complete it in sequence, you will approach the goal step by step. Keep moving!
