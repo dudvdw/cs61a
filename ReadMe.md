@@ -29,17 +29,17 @@ In the late 1950s, computer scientists used confusing names
 * cdr: Procedure that returns the rest of a list
 * nil: The empty list
 
-**Important!**
+**Important!**  
 Scheme lists are written in parentheses with elements separated by spaces
 
-**Built-in List Processing Procedures**
+**Built-in List Processing Procedures**  
 (append s t ): list the elements of s and t; append can be called on more than 2 lists
 (map f s): call a procedure f on each element of a list s and list the results
 (filter f s): call a procedure f on each element of a list s and list the elements for
 which a true value is the result
 (apply f s): call a procedure f with the elements of a list as its arguments
 
-**Quotation**
+**Quotation**  
 '<expression> is shorthand for (quote <expression>).
   (quote (1 2)) is equivalent to '(1 2)
 
@@ -131,18 +131,20 @@ Knowledge and application are two important notions when we talk about learning.
 All of these process of learning miss a key procedure -- application. When you complete project in your job, you try to use knowledge to solve so many problems, not merely simple practice. It is a process of applying knowledge, pushing you to learn it well. You may grow rapidly by this project-oriented learning method, but it has obvious defect -- it is not systematic. It denotes you learn things randomly, leading by projects in your work. That is a disadvantage for you to form a relatively integrated knowledge system, resulting in hardly transfer to another unfamiliar project rapidly.
 
 There are four primary procedures in the process of learning:
-* learn 
+* learn  
 **aim**: obtain knowledge
 **method**: read text/books, watch video
 
-* examine
+* examine  
 **aim**: consolidate knowledge
 **method**: do homework, attend exam
 
-* exercise
+* exercise  
 **aim**: obtain skill
 **method**: do exercise/lab
 
-* apply
-**aim**: consolidate skill
+* apply  
+**aim**: obtain and consolidate skill
 **method**: complete project
+
+Make a plan, set a deadline, complete it in sequence, you will approach the goal step by step. Keep moving!
