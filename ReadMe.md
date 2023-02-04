@@ -104,7 +104,7 @@ Tail recursion is defined as a recursive function in which the recursive call is
 ```
 
 
-### How to Design Programs
+## How to Design Programs
 * From Problem Aanlysis to Data Definitions
 
 * Signature, Purpose Statement, Header
@@ -114,3 +114,35 @@ Tail recursion is defined as a recursive function in which the recursive call is
 * Function Template
 
 * Testing
+
+
+## Summary
+### What Do You Learn From CS61A ?
+I have learned programming for a long time. At first, I searched information about 「How to learn Computer Science？」. There are so many answers on the website.
+After summarising these information, I tried to learn the core courses on the syllabus of some famous university. I started learning from *Mathematical Logic*, *Digital Circuit*, *Analog Circuit*......, reading books recommended on the website, such as *Discrete Mathematics and Its Applications*, *Computer Organization and Design: The Hardware/Software Interface*, *Computer Systems: A Programmer's Perspective*, *Computer Networking: A Top-Down Approach*, *Algorithm*, *Introduction to Algorithms*, *Modern Operating Systems*, *Thinking in Java*......, and many books I can not remember their names now. However, I still remember these days that I learned Python from the website, learned Java following *Java: The Complete Reference* on the notepad in Windows7 system. I got up early to read some books before the course, wrote code under the instruction of books or website in spare time. The process of learning by oneself was alone and boring, but I kept moving without hesitation. I knew I would approach the goal a bit after reading some pages of books, writing some lines of codes.
+
+Paying lots of efforts on studying CS by myself, whereas the result is not proportional with it. Why? I didn't know at that moment, maybe I had no gift on programming, I thought. However, I like learning new things, I have strong curiosity to make sense of those problems. But I felt confused at that time.
+
+Later, I found that many programmers didn't learn a lot at school, they learned more after they started to work or attended the training institutions. At that moment, I realized one can learn more from project than school or books. 
+
+After taking this course, I find I make mistake about learning.
+
+Knowledge and application are two important notions when we talk about learning. If you study by yourself, you obtain knowledge from books, or website. When you write code under the instruction of these materials, you try to transfer those knowledge to practice. If you study this major at school, there is one more procedure -- exam. Although you get a good grade on the examination, you merely know some basic syntax, or build a simple administrative system of book-database.
+All of these process of learning miss a key procedure -- application. When you complete project in your job, you try to use knowledge to solve so many problems, not merely simple practice. It is a process of applying knowledge, pushing you to learn it well. You may grow rapidly by this project-oriented learning method, but it has obvious defect -- it is not systematic. It denotes you learn things randomly, leading by projects in your work. That is a disadvantage for you to form a relatively integrated knowledge system, resulting in hardly transfer to another unfamiliar project rapidly.
+
+There are four primary procedures in the process of learning:
+* learn 
+**aim**: obtain knowledge
+**method**: read text/books, watch video
+
+* examine
+**aim**: consolidate knowledge
+**method**: do homework, attend exam
+
+* exercise
+**aim**: obtain skill
+**method**: do exercise/lab
+
+* apply
+**aim**: consolidate skill
+**method**: complete project
