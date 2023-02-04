@@ -48,7 +48,8 @@ which a true value is the result
   (lambda (<formal-parameters>) <body>)
 ```
 
-**Tail recursion**
+
+#### Tail recursion
 Tail recursion is defined as a recursive function in which the recursive call is the last statement that is executed by the function. So basically nothing is left to execute after the recursion call.
 
 *Examples:*
@@ -67,7 +68,8 @@ Tail recursion is defined as a recursive function in which the recursive call is
   (reverse-iter s nil))
 ```
 
-**Macro**
+
+#### Macro
 ``` scheme
 (define-macro (twice expr)
  (list 'begin expr expr))
@@ -100,3 +102,15 @@ Tail recursion is defined as a recursive function in which the recursive call is
 
 (for x '(1 2 3 4) (* x x))
 ```
+
+
+### How to Design Programs
+* From Problem Aanlysis to Data Definitions
+
+* Signature, Purpose Statement, Header
+
+* Functional Examples
+
+* Function Template
+
+* Testing
