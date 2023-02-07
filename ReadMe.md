@@ -148,3 +148,9 @@ There are four primary procedures in the process of learning:
 **method**: complete project
 
 Make a plan, set a deadline, complete it in sequence, you will approach the goal step by step. Keep moving!
+
+## Life Advise
+Don't Compare.
+  -- Professor John DeNero
+
+The best state of one is that he/she feels confident on his/her body and mind. And he/she likes the satisfied state at this moment which comes from the heart, not origins from comparing with others.
