@@ -41,6 +41,16 @@ def num_splits(s, d):
     12
     """
     "*** YOUR CODE HERE ***"
+    def helper(s, delta):
+        if not s:
+            if abs(delta) <= d:
+                return 1
+            else:
+                return 0
+        # helper(s[1:], delta + s[0]) put s[0] in the first set
+        # helper(s[1:], delta - s[0]) put s[0] in the second set
+        return helper(s[1:], delta + s[0]) + helper(s[1:], delta - s[0])
+    return helper(s, 0) // 2
 
 
 class Account(object):
